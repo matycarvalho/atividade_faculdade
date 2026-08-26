@@ -2,6 +2,8 @@
 
 Sistema web acadêmico para gerenciamento de **professores**, **disciplinas**, **cursos**, **alunos**, **ofertas de disciplina** e **matrículas**, desenvolvido como projeto da disciplina de ITPDAPW (IFSP). A aplicação oferece cadastro, listagem, edição e exclusão para cada módulo, com uma tela principal de navegação e interface construída com Thymeleaf.
 
+- [Bifurcado do repositório incompleto do Prof. Dr. Carlos Henrique](https://github.com/santoschs/java_springboot_heranca_joined_exemplo_pessoa_professor)
+
 ## Stack utilizada
 
 | Camada          | Tecnologia                              |
