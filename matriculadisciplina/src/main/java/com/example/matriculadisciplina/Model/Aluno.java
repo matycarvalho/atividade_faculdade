@@ -1,20 +1,18 @@
 package com.example.matriculadisciplina.Model;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import lombok.EqualsAndHashCode;
 
 @Entity
-@Table(name = "aluno")
-public class Aluno {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idAluno;
+@DiscriminatorValue("aluno")
+@EqualsAndHashCode(callSuper = true)
+@PrimaryKeyJoinColumn(name = "id_pessoa")
+public class Aluno extends Pessoa {
     @Column(name = "prontuario")
     private String prontuario;
      @Column(name = "nome_mae")
@@ -32,10 +30,10 @@ public class Aluno {
     private Curso curso;
 
     public int getIdAluno() {
-        return idAluno;
+        return getId_pessoa();
     }
     public void setIdAluno(int idAluno) {
-        this.idAluno = idAluno;
+        setId_pessoa(idAluno);
     }
     public Integer getIdCurso() {
         if (curso != null)
