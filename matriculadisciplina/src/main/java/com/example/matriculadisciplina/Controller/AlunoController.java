@@ -29,6 +29,8 @@ import com.example.matriculadisciplina.Model.Aluno;
 import com.example.matriculadisciplina.Repository.AlunoRepository;
 import com.example.matriculadisciplina.Repository.CursoRepository;
 
+import jakarta.validation.Valid;
+
 @Controller
 @RequestMapping("/aluno")
 public class AlunoController {
@@ -38,6 +40,12 @@ public class AlunoController {
     @Autowired
     private CursoRepository cursoRepository;
 
+    @GetMapping("/listar")
+    public String listar(Model model) {
+        // model.addAttribute("professor", new Professor());
+        return "formListarAluno"; // sem ".html" - o Thymeleaf resolve isso sozinho
+    }
+
     // Exibe o formulário de cadastro -> GET /aluno/cadastrar
     @GetMapping("cadastrar")
     public String novo(Model model) {
@@ -45,18 +53,18 @@ public class AlunoController {
         model.addAttribute("cursos", cursoRepository.findAll());
         return "formCadAlunoObjetoCurso"; // sem ".html" - o Thymeleaf resolve isso sozinho
     }
+
     // Salva (cria ou atualiza) um aluno -> POST /alunos/salvar
     @PostMapping("/salvar")
     public String salvar(
-            //@RequestParam("idAluno") int idAluno,
-            @RequestParam("prontuario") String prontuario,
-            @RequestParam("nomeMae") String nomeMae,
-            @RequestParam("nomePai") String nomePai,
-            @RequestParam("contatoResponsavel") String contatoResponsavel,
-            @RequestParam("ano_ingresso") int anoIngresso,
-            @RequestParam("ano_saida") int anoSaida,
-            @RequestParam("idCurso") int idCurso
-    ) {
+            // @RequestParam("idAluno") int idAluno,
+            @Valid @RequestParam("prontuario") String prontuario,
+            @Valid @RequestParam("nomeMae") String nomeMae,
+            @Valid @RequestParam("nomePai") String nomePai,
+            @Valid @RequestParam("contatoResponsavel") String contatoResponsavel,
+            @Valid @RequestParam("ano_ingresso") int anoIngresso,
+            @Valid @RequestParam("ano_saida") int anoSaida,
+            @Valid @RequestParam("idCurso") int idCurso) {
         Aluno aluno = new Aluno();
         aluno.setProntuario(prontuario);
         aluno.setNomeMae(nomeMae);
@@ -68,6 +76,5 @@ public class AlunoController {
         alunoRepository.insert(aluno);
         return "sucessoCadAluno";
     }
-
 
 }

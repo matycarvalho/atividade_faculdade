@@ -37,13 +37,13 @@ public class ProfessorController {
     @Autowired
     private ProfessorRepository alunoRepository;
 
-
     // Exibe o formulário de cadastro -> GET /aluno/cadastrar
     @GetMapping("/listar")
     public String listar(Model model) {
-        //model.addAttribute("professor", new Professor());
+        // model.addAttribute("professor", new Professor());
         return "formListarProfessor"; // sem ".html" - o Thymeleaf resolve isso sozinho
     }
+
     // Exibe o formulário de cadastro -> GET /aluno/cadastrar
     @GetMapping("/cadastrar")
     public String novo(Model model) {
@@ -51,10 +51,11 @@ public class ProfessorController {
         model.addAttribute("ufs", UF.values());
         return "formCadProfessor"; // sem ".html" - o Thymeleaf resolve isso sozinho
     }
+
     // Salva (cria ou atualiza) um aluno -> POST /alunos/salvar
     @PostMapping("/salvar")
     public String salvar(
-            //@RequestParam("idAluno") int idAluno,
+            // @RequestParam("idAluno") int idAluno,
             @RequestParam("nome") String nome,
             @RequestParam("endereco") String endereco,
             @RequestParam("cidade") String cidade,
@@ -64,8 +65,7 @@ public class ProfessorController {
             @RequestParam("idade") int idade,
             @RequestParam("siape") String siape,
             @RequestParam("area") String area,
-            @RequestParam("formacao") String formacao
-    ) {
+            @RequestParam("formacao") String formacao) {
         Pessoa pessoa = new Pessoa();
         Professor professor = new Professor();
         pessoa.setNome(nome);
@@ -80,6 +80,5 @@ public class ProfessorController {
         alunoRepository.insert(professor, pessoa);
         return "sucessoCadProfessor";
     }
-
 
 }
