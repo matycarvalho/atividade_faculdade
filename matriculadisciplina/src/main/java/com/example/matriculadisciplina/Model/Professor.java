@@ -1,5 +1,4 @@
 
-
 /* 
 Copyright (c) 2026 Carlos Santos. All Rights Reserved.
 Copyright (c) 2026 Maty Haidar. All Rights Reserved.
@@ -29,34 +28,44 @@ import lombok.EqualsAndHashCode;
 @DiscriminatorValue("professor")
 @EqualsAndHashCode(callSuper = true)
 @PrimaryKeyJoinColumn(name = "id_pessoa")
-public class Professor extends Pessoa{
+
+public class Professor extends Pessoa {
+
     @Column(name = "siape")
     private String siape;
-    @Column (name = "area")
+    @Column(name = "area")
     private String area;
-    @Column (name = "formacao")
+    @Column(name = "formacao")
     private String formacao;
+
     public int getIdProfessor() {
-        return getId_pessoa();
+        return getIdPessoa();
     }
+
     public void setIdProfessor(int idProfessor) {
-        setId_pessoa(idProfessor);
+        setIdPessoa(idProfessor);
     }
+
     public String getSiape() {
         return siape;
     }
+
     public void setSiape(String siape) {
         this.siape = siape;
     }
+
     public String getArea() {
         return area;
     }
+
     public void setArea(String area) {
         this.area = area;
     }
+
     public String getFormacao() {
         return formacao;
     }
+
     public void setFormacao(String formacao) {
         this.formacao = formacao;
     }

@@ -19,7 +19,6 @@ com este programa. Se não, veja <http://www.gnu.org/licenses/>.
 package com.example.matriculadisciplina.Model;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -28,7 +27,6 @@ import jakarta.validation.constraints.*;
 import lombok.EqualsAndHashCode;
 
 @Entity
-@DiscriminatorValue("aluno")
 @EqualsAndHashCode(callSuper = true)
 @PrimaryKeyJoinColumn(name = "id_pessoa")
 public class Aluno extends Pessoa {
@@ -43,7 +41,6 @@ public class Aluno extends Pessoa {
     @Column(name = "nome_mae")
     private String nomeMae;
 
-    @NotBlank(message = "Nome do pai não pode ser nulo")
     @Size(min = 3, max = 128)
     @Column(name = "nome_pai")
     private String nomePai;
@@ -59,21 +56,36 @@ public class Aluno extends Pessoa {
     private int ano_ingresso;
 
     @Min(value = 2025, message = "Ano não pode ser passado") // de novo...
-    // @NotNull // eu lá vou saber quando vou sair da faculdade, vai q eu repito de ano
+    // @NotNull // eu lá vou saber quando vou sair da faculdade, vai q eu repito de
+    // ano
     @Column(name = "ano_saida")
     private int ano_saida;
 
     @ManyToOne
-    @NotNull 
+    @NotNull
     @JoinColumn(name = "id_curso")
     private Curso curso;
 
+    public Aluno() {
+    }
+
+    public Aluno(String prontuario, String nomeMae, String nomePai, String contatoResponsavel, int anoIngresso,
+            int anoSaida, Curso curso) {
+        this.prontuario = prontuario;
+        this.nomeMae = nomeMae;
+        this.nomePai = nomePai;
+        this.contatoResponsavel = contatoResponsavel;
+        this.ano_ingresso = anoIngresso;
+        this.ano_saida = anoSaida;
+        this.curso = curso;
+    }
+
     public int getIdAluno() {
-        return getId_pessoa();
+        return getIdPessoa();
     }
 
     public void setIdAluno(int idAluno) {
-        setId_pessoa(idAluno);
+        setIdPessoa(idAluno);
     }
 
     public Integer getIdCurso() {

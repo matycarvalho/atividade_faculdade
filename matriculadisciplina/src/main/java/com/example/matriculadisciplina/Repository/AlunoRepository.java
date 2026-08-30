@@ -1,5 +1,4 @@
 
-
 /* 
 Copyright (c) 2026 Carlos Santos. All Rights Reserved.
 Copyright (c) 2026 Maty Haidar. All Rights Reserved.
@@ -19,6 +18,8 @@ com este programa. Se não, veja <http://www.gnu.org/licenses/>.
 */
 package com.example.matriculadisciplina.Repository;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.example.matriculadisciplina.Model.Aluno;
@@ -34,29 +35,154 @@ public class AlunoRepository {
     private EntityManager em;
 
     @Transactional
-    public boolean insert (Aluno aluno) {
+    public boolean insert(Aluno aluno) {
         try {
-            String comando = "INSERT INTO aluno (";
-            comando +=  "prontuario, nome_mae, nome_pai, contato_responsavel, ano_ingresso, ano_saida, ";
-            comando += "id_curso) VALUES (";
-            comando += ":vprontuario, :vnome_mae, :vnome_pai, :vcontato_responsavel, :vano_ingresso,"; 
-            comando += ":vano_saida, :vid_curso)";
-            Query query = em.createNativeQuery(comando);
-            
-            query.setParameter("vprontuario", aluno.getProntuario());
-            query.setParameter("vnome_mae", aluno.getNomeMae());
-            query.setParameter("vnome_pai", aluno.getNomePai());
-            query.setParameter("vcontato_responsavel", aluno.getContatoResponsavel());
-            query.setParameter("vano_ingresso", aluno.getAno_ingresso());
-            query.setParameter("vano_saida", aluno.getAno_saida());
-            query.setParameter("vid_curso", aluno.getIdCurso());
+            String comando;
+            Query query;
+            comando = "INSERT INTO pessoa (nome, endereco, cidade, uf, telefone, email, idade) VALUES";
+            comando += "(:vnome, :vendereco, :vcidade, :vuf, :vtelefone, :vemail, :vidade)";
+            query = em.createNativeQuery(comando);
+            query.setParameter("vnome", aluno.getNome());
+            query.setParameter("vendereco", aluno.getEndereco());
+            query.setParameter("vcidade", aluno.getCidade());
+            query.setParameter("vuf", aluno.getUf());
+            query.setParameter("vtelefone", aluno.getTelefone());
+            query.setParameter("vemail", aluno.getEmail());
+            query.setParameter("vidade", aluno.getIdade());
             query.executeUpdate();
+
+            Number idGerado = (Number) em
+                    .createNativeQuery("SELECT LAST_INSERT_ID()")
+                    .getSingleResult();
+
+            comando = "INSERT INTO aluno (";
+            comando += "id_pessoa, prontuario, nome_mae, nome_pai, contato_responsavel, ano_ingresso, ano_saida, id_curso) VALUES (";
+            comando += ":vid, :vprontuario, :vnomeMae, :vnomePai, :vcontatoResponsavel, :vanoIngresso, :vanoSaida, :vidCurso)";
+            query = em.createNativeQuery(comando);
+
+            query.setParameter("vid", idGerado.intValue());
+            query.setParameter("vprontuario", aluno.getProntuario());
+            query.setParameter("vnomeMae", aluno.getNomeMae());
+            query.setParameter("vnomePai", aluno.getNomePai());
+            query.setParameter("vcontatoResponsavel", aluno.getContatoResponsavel());
+            query.setParameter("vanoIngresso", aluno.getAno_ingresso());
+            query.setParameter("vanoSaida", aluno.getAno_saida());
+            query.setParameter("vidCurso", aluno.getIdCurso());
+
+            query.executeUpdate();
+
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
-    }
-    
-}
 
+    }
+
+    @Transactional
+    public List<Aluno> encontrarTodos() {
+        String sql = """
+                SELECT p.id_pessoa,
+                    p.nome,
+                    p.idade,
+                    p.email,
+                    p.telefone,
+                    p.endereco,
+                    p.cidade,
+                    p.uf,
+                    a.prontuario,
+                    a.nome_mae,
+                    a.nome_pai,
+                    a.contato_responsavel,
+                    a.ano_ingresso,
+                    a.ano_saida,
+                    c.id_curso,
+                    c.nome AS nome_curso
+                FROM pessoa p
+                JOIN aluno a ON p.id_pessoa = a.id_pessoa
+                LEFT JOIN curso c ON a.id_curso = c.id_curso
+                """;
+        Query query = em.createNativeQuery(sql, Aluno.class);
+        @SuppressWarnings("unchecked")
+        List<Aluno> alunos = query.getResultList();
+        return alunos;
+    }
+
+    @Transactional
+    public Aluno findByID(Integer idPessoa) {
+        String sql = """
+                SELECT p.id_pessoa,
+                    p.nome,
+                    p.idade,
+                    p.email,
+                    p.telefone,
+                    p.endereco,
+                    p.cidade,
+                    p.uf,
+                    a.prontuario,
+                    a.nome_mae,
+                    a.nome_pai,
+                    a.contato_pesponsavel,
+                    a.ano_ingresso,
+                    a.ano_saida,
+                    c.id_curso,
+                    c.nome AS nome_curso
+                FROM pessoa p
+                JOIN aluno a ON p.id_pessoa = a.id_pessoa
+                LEFT JOIN curso c ON a.id_curso = c.id_curso
+                WHERE p.id_pessoa = :id_pessoa
+                """;
+        Query query = em.createNativeQuery(sql, Aluno.class);
+        query.setParameter("id_pessoa", idPessoa);
+        Aluno aluno = (Aluno) query.getSingleResult();
+        return aluno;
+    }
+
+    @Transactional
+    public void update(Aluno aluno) {
+
+        String sqlPessoa = "UPDATE pessoa SET nome = :nome, idade = :idade, email = :email, "
+                + "telefone = :telefone, endereco = :endereco, cidade = :cidade, uf = :uf "
+                + "WHERE idPessoa = :idPessoa";
+
+        Query queryPessoa = em.createNativeQuery(sqlPessoa);
+
+        queryPessoa.setParameter("idPessoa", aluno.getIdPessoa());
+        queryPessoa.setParameter("nome", aluno.getNome());
+        queryPessoa.setParameter("idade", aluno.getIdade());
+        queryPessoa.setParameter("email", aluno.getEmail());
+        queryPessoa.setParameter("telefone", aluno.getTelefone());
+        queryPessoa.setParameter("endereco", aluno.getEndereco());
+        queryPessoa.setParameter("cidade", aluno.getCidade());
+        queryPessoa.setParameter("uf", aluno.getUf());
+
+        queryPessoa.executeUpdate();
+
+        String sqlAluno = "UPDATE aluno SET prontuario = :prontuario, nomeMae = :nomeMae, "
+                + "nomePai = :nomePai, contatoResponsavel = :contatoResponsavel, "
+                + "anoIngresso = :anoIngresso, anoSaida = :anoSaida, idCurso = :idCurso "
+                + "WHERE idPessoa = :idPessoa";
+
+        Query queryAluno = em.createNativeQuery(sqlAluno);
+
+        queryAluno.setParameter("idPessoa", aluno.getIdPessoa());
+        queryAluno.setParameter("prontuario", aluno.getProntuario());
+        queryAluno.setParameter("nomeMae", aluno.getNomeMae());
+        queryAluno.setParameter("nomePai", aluno.getNomePai());
+        queryAluno.setParameter("contatoResponsavel", aluno.getContatoResponsavel());
+        queryAluno.setParameter("anoIngresso", aluno.getAnoIngresso());
+        queryAluno.setParameter("anoSaida", aluno.getAnoSaida());
+        queryAluno.setParameter("idCurso", aluno.getIdCurso());
+
+        queryAluno.executeUpdate();
+    }
+
+    @Transactional
+    public void delete(Integer idPessoa) {
+        String sql = "DELETE FROM Aluno WHERE idPessoa = :idPessoa";
+        Query query = em.createNativeQuery(sql);
+        query.setParameter("idPessoa", idPessoa);
+        query.executeUpdate();
+    }
+
+}

@@ -25,7 +25,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 import com.example.matriculadisciplina.Model.Aluno;
+import com.example.matriculadisciplina.Model.UF;
 import com.example.matriculadisciplina.Repository.AlunoRepository;
 import com.example.matriculadisciplina.Repository.CursoRepository;
 
@@ -42,7 +45,7 @@ public class AlunoController {
 
     @GetMapping("/listar")
     public String listar(Model model) {
-        // model.addAttribute("professor", new Professor());
+        List<Aluno> alunos = alunoRepository.EncontrarTodos();
         return "formListarAluno"; // sem ".html" - o Thymeleaf resolve isso sozinho
     }
 
@@ -51,7 +54,8 @@ public class AlunoController {
     public String novo(Model model) {
         model.addAttribute("aluno", new Aluno());
         model.addAttribute("cursos", cursoRepository.findAll());
-        return "formCadAlunoObjetoCurso"; // sem ".html" - o Thymeleaf resolve isso sozinho
+        model.addAttribute("ufs", UF.values());
+        return "formCadAluno"; // sem ".html" - o Thymeleaf resolve isso sozinho
     }
 
     // Salva (cria ou atualiza) um aluno -> POST /alunos/salvar

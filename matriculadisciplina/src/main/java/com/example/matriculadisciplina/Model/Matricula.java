@@ -19,10 +19,40 @@ com este programa. Se não, veja <http://www.gnu.org/licenses/>.
 */
 package com.example.matriculadisciplina.Model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "matricula")
 public class Matricula {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idMatricula;
+
+    @ManyToMany
+    @JoinColumn(name = "id_oferta")
     private OfertaDisciplina oferta;
+
+    @ManyToOne
+    @JoinColumn(name = "id_pessoa")
     private Aluno aluno;
+
+        public Matricula() {
+    }
+
+    public Matricula(Integer idMatricula, OfertaDisciplina oferta, Aluno aluno) {
+        this.idMatricula = idMatricula;
+        this.oferta = oferta;
+        this.aluno = aluno;
+    }
+
     public int getIdMatricula() {
         return idMatricula;
     }
