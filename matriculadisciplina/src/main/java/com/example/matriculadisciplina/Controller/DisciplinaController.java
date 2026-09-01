@@ -22,10 +22,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.matriculadisciplina.Model.Curso;
 import com.example.matriculadisciplina.Model.Disciplina;
 import com.example.matriculadisciplina.Repository.CursoRepository;
 import com.example.matriculadisciplina.Repository.DisciplinaRepository;
@@ -40,7 +42,7 @@ public class DisciplinaController {
     @GetMapping("cadastrar")
     public String novo(Model model) {
         model.addAttribute("disciplina", new Disciplina());
-        model.addAttribute("cursos", cursoRepository.findAll());
+        model.addAttribute("cursos", cursoRepository.encontrarTodos());
         return "formCadDisciplina"; // sem ".html" - o Thymeleaf resolve isso sozinho
     }
     // Salva (cria ou atualiza) um aluno -> POST /alunos/salvar
@@ -57,4 +59,16 @@ public class DisciplinaController {
         return "sucessoCadDisciplina";
     }
     
+    @GetMapping("/editar/{id}")
+    public String editar(@PathVariable Integer id, Model model) {
+        Curso curso = cursoRepository.findByID(id);
+        model.addAttribute("curso", curso);
+        return "Curso/formCadCurso";
+    }
+
+    @GetMapping("/excluir/{id}")
+    public String excluir(@PathVariable Integer id) {
+        cursoRepository.delete(id);
+        return "redirect:/curso/listar";
+    }
 }

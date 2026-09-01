@@ -143,11 +143,11 @@ public class AlunoRepository {
 
         String sqlPessoa = "UPDATE pessoa SET nome = :nome, idade = :idade, email = :email, "
                 + "telefone = :telefone, endereco = :endereco, cidade = :cidade, uf = :uf "
-                + "WHERE idPessoa = :idPessoa";
+                + "WHERE id_pessoa = :id_pessoa";
 
         Query queryPessoa = em.createNativeQuery(sqlPessoa);
 
-        queryPessoa.setParameter("idPessoa", aluno.getIdPessoa());
+        queryPessoa.setParameter("id_pessoa", aluno.getIdPessoa());
         queryPessoa.setParameter("nome", aluno.getNome());
         queryPessoa.setParameter("idade", aluno.getIdade());
         queryPessoa.setParameter("email", aluno.getEmail());
@@ -158,30 +158,30 @@ public class AlunoRepository {
 
         queryPessoa.executeUpdate();
 
-        String sqlAluno = "UPDATE aluno SET prontuario = :prontuario, nomeMae = :nomeMae, "
-                + "nomePai = :nomePai, contatoResponsavel = :contatoResponsavel, "
-                + "anoIngresso = :anoIngresso, anoSaida = :anoSaida, idCurso = :idCurso "
-                + "WHERE idPessoa = :idPessoa";
+        String sqlAluno = "UPDATE aluno SET prontuario = :prontuario, nome_mae = :nome_mae, "
+                + "nome_pai = :nome_pai, contato_responsavel = :contato_responsavel, "
+                + "ano_ingresso = :ano_ingresso, ano_saida = :ano_saida, id_curso = :id_curso "
+                + "WHERE id_pessoa = :id_pessoa";
 
         Query queryAluno = em.createNativeQuery(sqlAluno);
 
-        queryAluno.setParameter("idPessoa", aluno.getIdPessoa());
+        queryAluno.setParameter("id_pessoa", aluno.getIdPessoa());
         queryAluno.setParameter("prontuario", aluno.getProntuario());
-        queryAluno.setParameter("nomeMae", aluno.getNomeMae());
-        queryAluno.setParameter("nomePai", aluno.getNomePai());
-        queryAluno.setParameter("contatoResponsavel", aluno.getContatoResponsavel());
-        queryAluno.setParameter("anoIngresso", aluno.getAnoIngresso());
-        queryAluno.setParameter("anoSaida", aluno.getAnoSaida());
-        queryAluno.setParameter("idCurso", aluno.getIdCurso());
+        queryAluno.setParameter("nome_mae", aluno.getNomeMae());
+        queryAluno.setParameter("nome_pai", aluno.getNomePai());
+        queryAluno.setParameter("contato_responsavel", aluno.getContatoResponsavel());
+        queryAluno.setParameter("ano_ingresso", aluno.getAno_ingresso());
+        queryAluno.setParameter("ano_saida", aluno.getAno_saida());
+        queryAluno.setParameter("id_curso", aluno.getIdCurso());
 
         queryAluno.executeUpdate();
     }
 
     @Transactional
     public void delete(Integer idPessoa) {
-        String sql = "DELETE FROM Aluno WHERE idPessoa = :idPessoa";
+        String sql = "DELETE FROM Aluno WHERE id_pessoa = :id_pessoa";
         Query query = em.createNativeQuery(sql);
-        query.setParameter("idPessoa", idPessoa);
+        query.setParameter("id_pessoa", idPessoa);
         query.executeUpdate();
     }
 

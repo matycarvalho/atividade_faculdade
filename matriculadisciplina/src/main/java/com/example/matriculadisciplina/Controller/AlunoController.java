@@ -45,7 +45,8 @@ public class AlunoController {
 
     @GetMapping("/listar")
     public String listar(Model model) {
-        List<Aluno> alunos = alunoRepository.EncontrarTodos();
+        List<Aluno> alunos = alunoRepository.encontrarTodos();
+        model.addAttribute("alunos", alunos);
         return "formListarAluno"; // sem ".html" - o Thymeleaf resolve isso sozinho
     }
 
@@ -61,14 +62,13 @@ public class AlunoController {
     // Salva (cria ou atualiza) um aluno -> POST /alunos/salvar
     @PostMapping("/salvar")
     public String salvar(
-            // @RequestParam("idAluno") int idAluno,
             @Valid @RequestParam("prontuario") String prontuario,
-            @Valid @RequestParam("nomeMae") String nomeMae,
-            @Valid @RequestParam("nomePai") String nomePai,
-            @Valid @RequestParam("contatoResponsavel") String contatoResponsavel,
+            @Valid @RequestParam("nome_mae") String nomeMae,
+            @Valid @RequestParam("nome_pai") String nomePai,
+            @Valid @RequestParam("contato_responsavel") String contatoResponsavel,
             @Valid @RequestParam("ano_ingresso") int anoIngresso,
             @Valid @RequestParam("ano_saida") int anoSaida,
-            @Valid @RequestParam("idCurso") int idCurso) {
+            @Valid @RequestParam("id_curso") int idCurso) {
         Aluno aluno = new Aluno();
         aluno.setProntuario(prontuario);
         aluno.setNomeMae(nomeMae);
