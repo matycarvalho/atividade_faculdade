@@ -30,7 +30,7 @@ import jakarta.persistence.InheritanceType;
 import lombok.Data;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Data
 @Table(name = "pessoa")
 public class Pessoa {
@@ -38,35 +38,35 @@ public class Pessoa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_pessoa;
 
-    @Size(min = 3, max = 128)
-    @NotBlank(message = "Campo não pode ser vazio")
+    // @Size(min = 3, max = 128)
+    // @NotBlank(message = "Campo não pode ser vazio")
     @Column(name = "nome")
     private String nome;
 
-    @NotNull(message = "Campo não pode ser vazio")
-    @Max(value = 100, message = "insira uma idade válida")
+    // @NotNull(message = "Campo não pode ser vazio")
+    // @Max(value = 100, message = "insira uma idade válida")
     @Column(name = "idade")
     private int idade;
 
-    @NotBlank(message = "Campo não pode ser vazio")
-    @Email
+    // @NotBlank(message = "Campo não pode ser vazio")
+    // @Email
     @Column(name = "email")
     private String email;
 
-    @NotNull(message = "Campo não pode ser vazio")
-    @Pattern(regexp = "^[0-9]{11}$", message = "Telefone deve ter 11 dígitos")
+    // @NotNull(message = "Campo não pode ser vazio")
+    // @Pattern(regexp = "^[0-9]{11}$", message = "Telefone deve ter 11 dígitos")
     @Column(name = "telefone")
     private String telefone;
 
-    @NotNull(message = "Campo não pode ser vazio")
+    // @NotNull(message = "Campo não pode ser vazio")
     @Column(name = "endereco")
     private String endereco;
 
-    @NotNull(message = "Campo não pode ser vazio")
+    // @NotNull(message = "Campo não pode ser vazio")
     @Column(name = "cidade")
     private String cidade;
 
-    @NotNull(message = "Campo não pode ser vazio")
+    // @NotNull(message = "Campo não pode ser vazio")
     @Column(name = "uf")
     private String uf;
 

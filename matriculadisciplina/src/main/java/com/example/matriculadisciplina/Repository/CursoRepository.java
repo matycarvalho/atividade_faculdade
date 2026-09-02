@@ -53,7 +53,7 @@ public class CursoRepository {
 
     @Transactional
     public List<Curso> encontrarTodos() {
-        String sql = "SELECT * from Curso";
+        String sql = "SELECT * from curso";
         Query query = em.createNativeQuery(sql, Curso.class);
         @SuppressWarnings("unchecked")
         List<Curso> cursos = query.getResultList();
@@ -62,7 +62,7 @@ public class CursoRepository {
 
     @Transactional
     public Curso findByID(Integer idCurso) {
-        String sql = "SELECT * FROM Curso WHERE id_curso = :id_curso";
+        String sql = "SELECT * FROM curso WHERE id_curso = :id_curso";
         Query query = em.createNativeQuery(sql, Curso.class);
         query.setParameter("id_curso", idCurso);
         Curso curso = (Curso) query.getSingleResult();
@@ -71,7 +71,7 @@ public class CursoRepository {
 
     @Transactional
     public void update(Curso curso) {
-        String sql = "UPDATE Curso SET nome = :nome, ano_inicio = :ano_inicio WHERE id_curso= :id_curso";
+        String sql = "UPDATE curso SET nome = :nome, ano_inicio = :ano_inicio WHERE id_curso= :id_curso";
         Query query = em.createNativeQuery(sql);
         query.setParameter("id_curso", curso.getIdCurso());
         query.setParameter("nome", curso.getNome());
@@ -81,7 +81,7 @@ public class CursoRepository {
 
     @Transactional
     public void delete(Integer idCurso) {
-        String sql = "DELETE FROM Curso WHERE id_curso = :id_curso";
+        String sql = "DELETE FROM curso WHERE id_curso = :id_curso";
         Query query = em.createNativeQuery(sql);
         query.setParameter("id_curso", idCurso);
         query.executeUpdate();

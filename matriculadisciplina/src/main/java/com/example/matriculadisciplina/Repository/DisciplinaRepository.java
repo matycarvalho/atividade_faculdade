@@ -50,7 +50,7 @@ public class DisciplinaRepository {
     }
 
     public List<Disciplina> findAll() {
-        String comando = "SELECT * FROM disciplina ORDER BY nome";
+        String comando = "SELECT * FROM disciplina ORDER";
         Query query = em.createNativeQuery(comando, Disciplina.class);
         return query.getResultList();
     }

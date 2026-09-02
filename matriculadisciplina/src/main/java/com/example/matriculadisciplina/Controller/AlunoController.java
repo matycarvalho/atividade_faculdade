@@ -54,7 +54,7 @@ public class AlunoController {
     @GetMapping("cadastrar")
     public String novo(Model model) {
         model.addAttribute("aluno", new Aluno());
-        model.addAttribute("cursos", cursoRepository.findAll());
+        model.addAttribute("cursos", cursoRepository.encontrarTodos());
         model.addAttribute("ufs", UF.values());
         return "formCadAluno"; // sem ".html" - o Thymeleaf resolve isso sozinho
     }

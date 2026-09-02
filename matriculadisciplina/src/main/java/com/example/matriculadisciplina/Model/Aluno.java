@@ -20,6 +20,9 @@ package com.example.matriculadisciplina.Model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
@@ -30,39 +33,42 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @PrimaryKeyJoinColumn(name = "id_pessoa")
 public class Aluno extends Pessoa {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int idAluno;
 
-    @NotBlank(message = "Prontuário não pode ser nulo")
-    @Pattern(regexp = "^[A-Za-z]{2}[0-9]{7}$", message = "Escreva um prontuário válido")
+    // @NotBlank(message = "Prontuário não pode ser nulo")
+    // @Pattern(regexp = "^[A-Za-z]{2}[0-9]{7}$", message = "Escreva um prontuário válido")
     @Column(name = "prontuario")
     private String prontuario;
 
-    @NotBlank(message = "Nome da mãe não pode ser nulo")
-    @Size(min = 3, max = 128)
+    // @NotBlank(message = "Nome da mãe não pode ser nulo")
+    // @Size(min = 3, max = 128)
     @Column(name = "nome_mae")
     private String nomeMae;
 
-    @Size(min = 3, max = 128)
+    // @Size(min = 3, max = 128)
     @Column(name = "nome_pai")
     private String nomePai;
 
-    @NotNull
-    @Pattern(regexp = "^[0-9]{11}$", message = "Telefone deve ter 11 dígitos")
+    // @NotNull
+    // @Pattern(regexp = "^[0-9]{11}$", message = "Telefone deve ter 11 dígitos")
     @Column(name = "contato_responsavel")
     private String contatoResponsavel;
 
-    @Max(value = 2026, message = "Ano não pode ser futuro") // seria necessário trocar todo ano (REALMENTE NÃO É IDEAL)
-    @NotNull
+    // @Max(value = 2026, message = "Ano não pode ser futuro") // seria necessário trocar todo ano (REALMENTE NÃO É IDEAL)
+    // @NotNull
     @Column(name = "ano_ingresso")
     private int ano_ingresso;
 
-    @Min(value = 2025, message = "Ano não pode ser passado") // de novo...
+    // @Min(value = 2025, message = "Ano não pode ser passado") // de novo...
     // @NotNull // eu lá vou saber quando vou sair da faculdade, vai q eu repito de
     // ano
     @Column(name = "ano_saida")
     private int ano_saida;
 
     @ManyToOne
-    @NotNull
+    // @NotNull
     @JoinColumn(name = "id_curso")
     private Curso curso;
 

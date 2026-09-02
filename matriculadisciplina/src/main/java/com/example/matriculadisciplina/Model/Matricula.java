@@ -1,5 +1,4 @@
 
-
 /* 
 Copyright (c) 2026 Carlos Santos. All Rights Reserved.
 Copyright (c) 2026 Maty Haidar. All Rights Reserved.
@@ -24,7 +23,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -36,7 +34,7 @@ public class Matricula {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idMatricula;
 
-    @ManyToMany
+    @ManyToOne
     @JoinColumn(name = "id_oferta")
     private OfertaDisciplina oferta;
 
@@ -44,7 +42,7 @@ public class Matricula {
     @JoinColumn(name = "id_pessoa")
     private Aluno aluno;
 
-        public Matricula() {
+    public Matricula() {
     }
 
     public Matricula(Integer idMatricula, OfertaDisciplina oferta, Aluno aluno) {
@@ -56,18 +54,23 @@ public class Matricula {
     public int getIdMatricula() {
         return idMatricula;
     }
+
     public void setIdMatricula(int idMatricula) {
         this.idMatricula = idMatricula;
     }
+
     public OfertaDisciplina getOferta() {
         return oferta;
     }
+
     public void setOferta(OfertaDisciplina oferta) {
         this.oferta = oferta;
     }
+
     public Aluno getAluno() {
         return aluno;
     }
+
     public void setAluno(Aluno aluno) {
         this.aluno = aluno;
     }
