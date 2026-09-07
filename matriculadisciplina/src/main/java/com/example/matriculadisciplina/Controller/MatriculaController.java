@@ -1,4 +1,3 @@
-
 /* 
 Copyright (c) 2026 Carlos Santos. All Rights Reserved.
 Copyright (c) 2026 Maty Haidar. All Rights Reserved.
@@ -18,53 +17,52 @@ com este programa. Se não, veja <http://www.gnu.org/licenses/>.
 */
 package com.example.matriculadisciplina.Controller;
 
+import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.matriculadisciplina.Model.OfertaDisciplina;
-import com.example.matriculadisciplina.Repository.DisciplinaRepository;
+import com.example.matriculadisciplina.Model.Matricula;
+import com.example.matriculadisciplina.Model.Pessoa;
+import com.example.matriculadisciplina.Model.Professor;
+import com.example.matriculadisciplina.Model.UF;
+import com.example.matriculadisciplina.Repository.AlunoRepository;
+import com.example.matriculadisciplina.Repository.MatriculaRepository;
 import com.example.matriculadisciplina.Repository.OfertaDisciplinaRepository;
 import com.example.matriculadisciplina.Repository.ProfessorRepository;
 
 @Controller
-@RequestMapping("/ofertadisciplina")
-public class OfertaDisciplinaController {
+@RequestMapping("/matricula")
+public class MatriculaController {
     @Autowired
-    private OfertaDisciplinaRepository oferta_disciplinaRepository;
+    private MatriculaRepository matriculaRepository;
+    @Autowired
+    private AlunoRepository alunoRepository;
+    @Autowired
+    private OfertaDisciplinaRepository ofertaRepository;
 
-    @Autowired
-    private DisciplinaRepository disciplinaRepository;
-
-    @Autowired
-    private ProfessorRepository professorRepository;
-    
-    @GetMapping("cadastrar")
+    // Exibe o formulário de cadastro -> GET /aluno/cadastrar
+    @GetMapping("/cadastrar")
     public String novo(Model model) {
-        model.addAttribute("oferta_disciplina", new OfertaDisciplina());
-        model.addAttribute("disciplinas", disciplinaRepository.findAll());
-        model.addAttribute("professores", professorRepository.findAll());
-        
-        return "formCadOfertaDisciplina"; // sem ".html" - o Thymeleaf resolve isso sozinho
+        model.addAttribute("alunos", alunoRepository.encontrarTodos());
+        model.addAttribute("ofertas", ofertaRepository.findAll());
+        return "formCadMatricula"; // sem ".html" - o Thymeleaf resolve isso sozinho
     }
+
     // Salva (cria ou atualiza) um aluno -> POST /alunos/salvar
     @PostMapping("/salvar")
     public String salvar(
-            @RequestParam("id_disciplina") int id_disciplina,
-            @RequestParam("id_professor") int id_professor,
-            @RequestParam("ano") int ano,
-            @RequestParam("semestre") int semestre
-    ) {
-        OfertaDisciplina oferta_disciplina = new OfertaDisciplina();
-        oferta_disciplina.setIdDisciplina(id_disciplina);
-        oferta_disciplina.setIdProfessor(id_professor);
-        oferta_disciplina.setAno(ano);
-        oferta_disciplina.setSemestre(semestre);
-        return "sucessoCadOfertaDisciplina";
+            // @RequestParam("idAluno") int idAluno,
+            @RequestParam("id_aluno") int idAluno,
+            @RequestParam("id_oferta") int idOferta) {
+        Matricula matricula = new Matricula();
+        matricula.setIdAluno(idAluno);
+        matricula.setIdOferta(idOferta);
+        matriculaRepository.insert(matricula);
+        return "sucessoCadMatricula";
     }
-    
+
 }

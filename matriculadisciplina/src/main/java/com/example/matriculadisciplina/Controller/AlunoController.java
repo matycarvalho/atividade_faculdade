@@ -62,13 +62,13 @@ public class AlunoController {
     // Salva (cria ou atualiza) um aluno -> POST /alunos/salvar
     @PostMapping("/salvar")
     public String salvar(
-            @Valid @RequestParam("prontuario") String prontuario,
-            @Valid @RequestParam("nome_mae") String nomeMae,
-            @Valid @RequestParam("nome_pai") String nomePai,
-            @Valid @RequestParam("contato_responsavel") String contatoResponsavel,
-            @Valid @RequestParam("ano_ingresso") int anoIngresso,
-            @Valid @RequestParam("ano_saida") int anoSaida,
-            @Valid @RequestParam("id_curso") int idCurso) {
+            @RequestParam("prontuario") String prontuario,
+            @RequestParam("nome_mae") String nomeMae,
+            @RequestParam("nome_pai") String nomePai,
+            @RequestParam("contato_responsavel") String contatoResponsavel,
+            @RequestParam("ano_ingresso") int anoIngresso,
+            @RequestParam("ano_saida") int anoSaida,
+            @RequestParam("id_curso") int idCurso) {
         Aluno aluno = new Aluno();
         aluno.setProntuario(prontuario);
         aluno.setNomeMae(nomeMae);

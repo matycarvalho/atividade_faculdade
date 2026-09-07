@@ -39,7 +39,7 @@ public class Matricula {
     private OfertaDisciplina oferta;
 
     @ManyToOne
-    @JoinColumn(name = "id_pessoa")
+    @JoinColumn(name = "id_aluno")
     private Aluno aluno;
 
     public Matricula() {
@@ -59,19 +59,23 @@ public class Matricula {
         this.idMatricula = idMatricula;
     }
 
-    public OfertaDisciplina getOferta() {
-        return oferta;
+    public int getIdOferta() {
+        return oferta != null ? oferta.getIdOferta() : 0;
     }
 
-    public void setOferta(OfertaDisciplina oferta) {
-        this.oferta = oferta;
+    public void setIdOferta(int id) {
+        if (this.oferta == null)
+            this.oferta = new OfertaDisciplina();
+        this.oferta.setIdOferta(id);
     }
 
-    public Aluno getAluno() {
-        return aluno;
+    public int getIdAluno() {
+        return aluno != null ? aluno.getIdAluno() : 0;
     }
 
-    public void setAluno(Aluno aluno) {
-        this.aluno = aluno;
+    public void setIdAluno(int id) {
+        if (this.aluno == null)
+            this.aluno = new Aluno();
+        this.aluno.setIdAluno(id);
     }
 }

@@ -81,27 +81,7 @@ public class AlunoRepository {
 
     @Transactional
     public List<Aluno> encontrarTodos() {
-        String sql = """
-                SELECT p.id_pessoa,
-                    p.nome,
-                    p.idade,
-                    p.email,
-                    p.telefone,
-                    p.endereco,
-                    p.cidade,
-                    p.uf,
-                    a.prontuario,
-                    a.nome_mae,
-                    a.nome_pai,
-                    a.contato_responsavel,
-                    a.ano_ingresso,
-                    a.ano_saida,
-                    c.id_curso,
-                    c.nome AS nome_curso
-                FROM pessoa p
-                JOIN aluno a ON p.id_pessoa = a.id_pessoa
-                LEFT JOIN curso c ON a.id_curso = c.id_curso
-                """;
+        String sql = "SELECT * FROM aluno";
         Query query = em.createNativeQuery(sql, Aluno.class);
         @SuppressWarnings("unchecked")
         List<Aluno> alunos = query.getResultList();

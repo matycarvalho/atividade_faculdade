@@ -1,5 +1,4 @@
 
-
 /* 
 Copyright (c) 2026 Carlos Santos. All Rights Reserved.
 Copyright (c) 2026 Maty Haidar. All Rights Reserved.
@@ -29,10 +28,11 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import jakarta.transaction.Transactional;
+
 @Repository
 
 public class CursoRepository {
-    @PersistenceContext 
+    @PersistenceContext
     private EntityManager em;
 
     @Transactional
@@ -45,7 +45,7 @@ public class CursoRepository {
             query.setParameter("vano_inicio", curso.getAno_inicio());
             query.executeUpdate();
             return true;
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
