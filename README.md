@@ -1,3 +1,6 @@
+> [!WARNING]
+> repositório arquivado pq eu desisti de fazer essa atividade :D 
+
 # Sistema de Matrícula
 
 Sistema web acadêmico para gerenciamento de **professores**, **disciplinas**, **cursos**, **alunos**, **ofertas de disciplina** e **matrículas**, desenvolvido como projeto da disciplina de ITPDAPW (IFSP). A aplicação oferece cadastro, listagem, edição e exclusão para cada módulo, com uma tela principal de navegação e interface construída com Thymeleaf.
