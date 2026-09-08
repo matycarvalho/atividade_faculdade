@@ -25,9 +25,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 import com.example.matriculadisciplina.Model.Aluno;
+import com.example.matriculadisciplina.Model.UF;
 import com.example.matriculadisciplina.Repository.AlunoRepository;
 import com.example.matriculadisciplina.Repository.CursoRepository;
+
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/aluno")
@@ -38,25 +43,32 @@ public class AlunoController {
     @Autowired
     private CursoRepository cursoRepository;
 
+    @GetMapping("/listar")
+    public String listar(Model model) {
+        List<Aluno> alunos = alunoRepository.encontrarTodos();
+        model.addAttribute("alunos", alunos);
+        return "formListarAluno"; // sem ".html" - o Thymeleaf resolve isso sozinho
+    }
+
     // Exibe o formulário de cadastro -> GET /aluno/cadastrar
     @GetMapping("cadastrar")
     public String novo(Model model) {
         model.addAttribute("aluno", new Aluno());
-        model.addAttribute("cursos", cursoRepository.findAll());
-        return "formCadAlunoObjetoCurso"; // sem ".html" - o Thymeleaf resolve isso sozinho
+        model.addAttribute("cursos", cursoRepository.encontrarTodos());
+        model.addAttribute("ufs", UF.values());
+        return "formCadAluno"; // sem ".html" - o Thymeleaf resolve isso sozinho
     }
+
     // Salva (cria ou atualiza) um aluno -> POST /alunos/salvar
     @PostMapping("/salvar")
     public String salvar(
-            //@RequestParam("idAluno") int idAluno,
             @RequestParam("prontuario") String prontuario,
-            @RequestParam("nomeMae") String nomeMae,
-            @RequestParam("nomePai") String nomePai,
-            @RequestParam("contatoResponsavel") String contatoResponsavel,
+            @RequestParam("nome_mae") String nomeMae,
+            @RequestParam("nome_pai") String nomePai,
+            @RequestParam("contato_responsavel") String contatoResponsavel,
             @RequestParam("ano_ingresso") int anoIngresso,
             @RequestParam("ano_saida") int anoSaida,
-            @RequestParam("idCurso") int idCurso
-    ) {
+            @RequestParam("id_curso") int idCurso) {
         Aluno aluno = new Aluno();
         aluno.setProntuario(prontuario);
         aluno.setNomeMae(nomeMae);
@@ -68,6 +80,5 @@ public class AlunoController {
         alunoRepository.insert(aluno);
         return "sucessoCadAluno";
     }
-
 
 }

@@ -1,5 +1,4 @@
 
-
 /* 
 Copyright (c) 2026 Carlos Santos. All Rights Reserved.
 Copyright (c) 2026 Maty Haidar. All Rights Reserved.
@@ -19,26 +18,64 @@ com este programa. Se não, veja <http://www.gnu.org/licenses/>.
 */
 package com.example.matriculadisciplina.Model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "matricula")
 public class Matricula {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idMatricula;
+
+    @ManyToOne
+    @JoinColumn(name = "id_oferta")
     private OfertaDisciplina oferta;
+
+    @ManyToOne
+    @JoinColumn(name = "id_aluno")
     private Aluno aluno;
+
+    public Matricula() {
+    }
+
+    public Matricula(Integer idMatricula, OfertaDisciplina oferta, Aluno aluno) {
+        this.idMatricula = idMatricula;
+        this.oferta = oferta;
+        this.aluno = aluno;
+    }
+
     public int getIdMatricula() {
         return idMatricula;
     }
+
     public void setIdMatricula(int idMatricula) {
         this.idMatricula = idMatricula;
     }
-    public OfertaDisciplina getOferta() {
-        return oferta;
+
+    public int getIdOferta() {
+        return oferta != null ? oferta.getIdOferta() : 0;
     }
-    public void setOferta(OfertaDisciplina oferta) {
-        this.oferta = oferta;
+
+    public void setIdOferta(int id) {
+        if (this.oferta == null)
+            this.oferta = new OfertaDisciplina();
+        this.oferta.setIdOferta(id);
     }
-    public Aluno getAluno() {
-        return aluno;
+
+    public int getIdAluno() {
+        return aluno != null ? aluno.getIdAluno() : 0;
     }
-    public void setAluno(Aluno aluno) {
-        this.aluno = aluno;
+
+    public void setIdAluno(int id) {
+        if (this.aluno == null)
+            this.aluno = new Aluno();
+        this.aluno.setIdAluno(id);
     }
 }

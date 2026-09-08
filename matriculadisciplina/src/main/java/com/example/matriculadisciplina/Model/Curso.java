@@ -1,5 +1,4 @@
 
-
 /* 
 Copyright (c) 2026 Carlos Santos. All Rights Reserved.
 Copyright (c) 2026 Maty Haidar. All Rights Reserved.
@@ -27,7 +26,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table (name = "curso")
+@Table(name = "curso")
 public class Curso {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,23 +35,37 @@ public class Curso {
     private String nome;
     @Column(name = "ano_inicio")
     private int ano_inicio;
+
+    public Curso() {
+    }
+
+    public Curso(Integer idCurso, String nome, int anoInicio) {
+        this.id_curso = idCurso;
+        this.nome = nome;
+        this.ano_inicio = anoInicio;
+    }
+
     public int getIdCurso() {
         return id_curso;
     }
+
     public void setIdCurso(int idCurso) {
         this.id_curso = idCurso;
     }
+
     public String getNome() {
         return nome;
     }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
+
     public int getAno_inicio() {
         return ano_inicio;
     }
+
     public void setAno_inicio(int ano_inicio) {
         this.ano_inicio = ano_inicio;
     }
-
 }

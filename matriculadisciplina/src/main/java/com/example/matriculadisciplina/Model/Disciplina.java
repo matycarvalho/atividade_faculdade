@@ -34,6 +34,7 @@ public class Disciplina {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_disciplina")
     private int idDisciplina;
 
     @Column(name = "nome")
@@ -43,6 +44,14 @@ public class Disciplina {
     @JoinColumn(name = "id_curso")
     private Curso curso;
 
+    public Disciplina() {
+    }
+
+    public Disciplina(Integer idDisciplina, String nome, Curso curso) {
+        this.idDisciplina = idDisciplina;
+        this.nome = nome;
+        this.curso = curso;
+    }
     public int getIdDisciplina() {
         return idDisciplina;
     }

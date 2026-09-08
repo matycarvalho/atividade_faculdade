@@ -1,5 +1,4 @@
 
-
 /* 
 Copyright (c) 2026 Carlos Santos. All Rights Reserved.
 Copyright (c) 2026 Maty Haidar. All Rights Reserved.
@@ -28,10 +27,11 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import jakarta.transaction.Transactional;
+
 @Repository
 
 public class OfertaDisciplinaRepository {
-    @PersistenceContext 
+    @PersistenceContext
     private EntityManager em;
 
     @Transactional
@@ -46,15 +46,17 @@ public class OfertaDisciplinaRepository {
             query.setParameter("vsemestre", oferta_disciplina.getSemestre());
             query.executeUpdate();
             return true;
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
 
-    public List<Disciplina> findAll() {
-        String comando = "SELECT * FROM oferta_disciplina ORDER BY nome";
-        Query query = em.createNativeQuery(comando, Disciplina.class);
-        return query.getResultList();
+    @Transactional
+    public List<OfertaDisciplina> findAll() {
+        String comando = "SELECT * FROM oferta_disciplina";
+        Query query = em.createNativeQuery(comando, OfertaDisciplina.class);
+        List<OfertaDisciplina> ofertas = query.getResultList();
+        return ofertas;
     }
 }

@@ -47,6 +47,7 @@ public class OfertaDisciplinaController {
     public String novo(Model model) {
         model.addAttribute("oferta_disciplina", new OfertaDisciplina());
         model.addAttribute("disciplinas", disciplinaRepository.findAll());
+        model.addAttribute("professores", professorRepository.findAll());
         
         return "formCadOfertaDisciplina"; // sem ".html" - o Thymeleaf resolve isso sozinho
     }

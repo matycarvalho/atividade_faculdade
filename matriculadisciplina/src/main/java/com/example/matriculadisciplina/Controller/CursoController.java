@@ -18,6 +18,8 @@ com este programa. Se não, veja <http://www.gnu.org/licenses/>.
 */
 package com.example.matriculadisciplina.Controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,7 +36,16 @@ import com.example.matriculadisciplina.Repository.CursoRepository;
 public class CursoController {
     @Autowired
     private CursoRepository cursoRepository;
+
     // Exibe o formulário de cadastro -> GET /aluno/cadastrar
+
+    @GetMapping("/listar")
+    public String listar(Model model) {
+        List<Curso> cursos = cursoRepository.encontrarTodos();
+        model.addAttribute("cursos", cursos);
+        return "formListarCurso";
+    }
+
     @GetMapping("cadastrar")
     public String novo(Model model) {
         model.addAttribute("curso", new Curso());
@@ -43,18 +54,17 @@ public class CursoController {
         model.addAttribute("curso", curso);
         return "formCadCurso"; // sem ".html" - o Thymeleaf resolve isso sozinho
     }
+
     // Salva (cria ou atualiza) um aluno -> POST /alunos/salvar
     @PostMapping("/salvar")
     public String salvar(
-            //@RequestParam("idAluno") int idAluno,
             @RequestParam("nome") String nome,
-            @RequestParam("ano_inicio") int ano_inicio
-    ) {
+            @RequestParam("ano_inicio") int ano_inicio) {
         Curso curso = new Curso();
         curso.setNome(nome);
         curso.setAno_inicio(ano_inicio);
         cursoRepository.insert(curso);
         return "sucessoCadCurso";
     }
-    
+
 }
