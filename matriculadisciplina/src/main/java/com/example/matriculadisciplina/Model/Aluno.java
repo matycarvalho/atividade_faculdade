@@ -31,7 +31,6 @@ import lombok.EqualsAndHashCode;
 
 @Entity
 @EqualsAndHashCode(callSuper = true)
-@PrimaryKeyJoinColumn(name = "id_pessoa")
 public class Aluno extends Pessoa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
